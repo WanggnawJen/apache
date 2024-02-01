@@ -1,0 +1,19 @@
+Create rsyslog config for apache logs file   >>>>>   /etc/rsyslog.d/apache2.conf
+   module(load="imfile" PollingInterval="10" statefile.directory="/var/spool/rsyslog")
+   input(type="imfile"
+      File="/var/log/apache2/other_vhosts_access.log"
+      Tag="http_vhosts_access"
+      Severity="info"
+      Facility="local6")
+    local6.info        @@192.168.99.100:5514
+
+Validate Rsyslog file >>>  rsyslogd -N1 -f /etc/rsyslog.d/apache2.conf
+Restart Rsyslog service >>>  systemctl restart rsyslog
+
+Add/Modify Apache Config file >>>
+    CustomLog "|/bin/sh -c '/usr/bin/tee -a /var/log/apache2/other_vhosts_access.log | /usr/bin/logger -thttp_vhosts_access: -plocal6.info'" combined
+Test Apache config file >>>   apachectl  -t
+Restart Apache & Rsyslog service  >>>   systemctl restart apache2 rsyslog
+
+
+
