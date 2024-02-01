@@ -1,0 +1,14 @@
+sudo apt install apache2
+main config file >>>  /etc/apache2/apache2.conf
+addition listen port >>>   /etc/apache2/ports.conf
+virtual host config directory >>>  /etc/apache2/sites-available/
+virtual host config file >>>   testsite1.conf
+    <VirtualHost *:8000>
+        DocumentRoot  /var/www/testsite1
+    </VirtualHost>
+Web content directory/file  >>>   /var/www/testsite1/index.html
+    <html><head><title>TestSite1</title></head><body>thisistestsite1</body></html>
+Enable virtual host config file  >>>    a2ensite  testsite1.conf
+virtual host config file will be linked in >>>   /etc/apache2/sites-enabled/
+Reload apache service >>>   systemctl reload apache2
+Surf the Web  >>>   http://192.168.100.101:8000
